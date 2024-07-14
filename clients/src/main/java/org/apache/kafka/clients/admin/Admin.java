@@ -134,9 +134,17 @@ public interface Admin extends AutoCloseable {
      * @return The new KafkaAdminClient.
      */
     static Admin create(Properties props) {
-        return KafkaAdminClient.createInternal(new AdminClientConfig(props, true), null);
-    }
 
+	String useDDS = props.getProperty("useCascadeDDSImpl","false");
+		
+	if (useDDS.equalsIgnoreCase("true")){
+		return DDSAdminClient.createInternal(); 
+	}
+	else{
+	    return KafkaAdminClient.createInternal(new AdminClientConfig(props, true), null);
+
+    }
+    }
     /**
      * Create a new Admin with the given configuration.
      *
@@ -144,9 +152,17 @@ public interface Admin extends AutoCloseable {
      * @return The new KafkaAdminClient.
      */
     static Admin create(Map<String, Object> conf) {
-        return KafkaAdminClient.createInternal(new AdminClientConfig(conf, true), null, null);
-    }
 
+	String useDDS = conf.getOrDefault("useCascadeDDSImpl","false");
+		
+	if (useDDS.equalsIgnoreCase("true")){
+		return DDSAdminClient.createInternal(); 
+	}
+	else{
+
+    	    return KafkaAdminClient.createInternal(new AdminClientConfig(conf, true), null, null);
+    }
+    }
     /**
      * Close the Admin and release all associated resources.
      * <p>
