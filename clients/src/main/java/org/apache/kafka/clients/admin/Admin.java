@@ -153,7 +153,7 @@ public interface Admin extends AutoCloseable {
      */
     static Admin create(Map<String, Object> conf) {
 
-	String useDDS = conf.getOrDefault("useCascadeDDSImpl","false");
+	String useDDS =(String)conf.getOrDefault("useCascadeDDSImpl","false");
 		
 	if (useDDS.equalsIgnoreCase("true")){
 		return DDSAdminClient.createInternal(); 
