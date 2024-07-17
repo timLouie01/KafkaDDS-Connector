@@ -240,7 +240,7 @@ import org.apache.kafka.common.utils.ProducerIdAndEpoch;
 import org.apache.kafka.common.utils.Time;
 import org.apache.kafka.common.utils.Utils;
 
-// import org.slf4j.Logger;
+import org.slf4j.Logger;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -295,9 +295,9 @@ public class DDSAdminClient extends AdminClient{
 		this.DDSMetadataClient_ptr = input;
 	}
 
-	public static native long createInternal_native();
+	public static native long createInternal_native(String path);
 
-	public static Admin createInternal(){return new DDSAdminClient(createInternal_native());}
+	public static Admin createInternal(String path){return new DDSAdminClient(createInternal_native(path));}
 
 	public native void createTopics_native(long pointer, Collection<NewTopic> newTopics);
 
@@ -310,22 +310,37 @@ public class DDSAdminClient extends AdminClient{
 	}
 	
 
+	
+	public native void close(long pointer,Duration timeout);
+	
 	@Override
-	public native void close(Duration timeout);
+	public void close(Duration timeout){
 
-    @Override
-    public CreateTopicsResult createTopics(Collection<NewTopic> newTopics, CreateTopicsOptions options) {
-        throw new UnsupportedOperationException(NOT_IMPLEMENTED_MESSAGE);
-    }
+		this.close(this.DDSMetadataClient_ptr,timeout);
+	}
+ 	@Override
+   	public CreateTopicsResult createTopics(Collection<NewTopic> newTopics, CreateTopicsOptions options) {
+	           throw new UnsupportedOperationException(NOT_IMPLEMENTED_MESSAGE);
+    } 
 
-    @Override
+	@Override
     public DeleteTopicsResult deleteTopics(TopicCollection topics, DeleteTopicsOptions options) {
         throw new UnsupportedOperationException(NOT_IMPLEMENTED_MESSAGE);
     }
 
+    public native void ListTopics_native(long pointer);
+
     @Override
     public ListTopicsResult listTopics(ListTopicsOptions options) {
-        throw new UnsupportedOperationException(NOT_IMPLEMENTED_MESSAGE);
+      
+	this.ListTopics_native(this.DDSMetadataClient_ptr);
+	    
+	Map<String, TopicListing> emptyMap = Collections.emptyMap();
+	
+	KafkaFuture<Map<String, TopicListing>> completedFuture = KafkaFuture.completedFuture(emptyMap);         
+	
+	return new ListTopicsResult(completedFuture);
+	// throw new UnsupportedOperationException(NOT_IMPLEMENTED_MESSAGE);
     }
 
     @Override

@@ -138,7 +138,8 @@ public interface Admin extends AutoCloseable {
 	String useDDS = props.getProperty("useCascadeDDSImpl","false");
 		
 	if (useDDS.equalsIgnoreCase("true")){
-		return DDSAdminClient.createInternal(); 
+		String pathToConfig = props.getProperty("DDSConfigPath");
+		return DDSAdminClient.createInternal(pathToConfig); 
 	}
 	else{
 	    return KafkaAdminClient.createInternal(new AdminClientConfig(props, true), null);
@@ -156,7 +157,8 @@ public interface Admin extends AutoCloseable {
 	String useDDS =(String)conf.getOrDefault("useCascadeDDSImpl","false");
 		
 	if (useDDS.equalsIgnoreCase("true")){
-		return DDSAdminClient.createInternal(); 
+		String pathToConfig = (String)conf.get("DDSConfigPath");
+		return DDSAdminClient.createInternal(pathToConfig); 
 	}
 	else{
 

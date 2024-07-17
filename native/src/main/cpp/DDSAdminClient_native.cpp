@@ -1,6 +1,10 @@
+#include <cstdio>
 #include <jni.h>
+#include <memory_resource>
 #include <string>
 #include <cascade_dds/dds.hpp>
+#include <unordered_map>
+#include "../headers/org_apache_kafka_clients_admin_DDSAdminClient.h"
 
 using namespace derecho::cascade;
 
@@ -10,21 +14,13 @@ std::string extractTopicName (const std::string& path){
 	auto pos = path.find_last_of('/');
 	return path.substr(pos +1);	
 }
-/*
- * Class:     org_apache_kafka_clients_admin_DDSAdminClient
- * Method:    createInternal_native
- * Signature: ()J
- */
+
 JNIEXPORT jlong JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_createInternal_1native
-  (JNIEnv* env, jclass cls){
+  (JNIEnv* env, jclass cls, jstring path){
 	  auto temp = DDSMetadataClient::create(DDSConfig::get());
           return reinterpret_cast<jlong>(temp.release());
   }
-/*
- * Class:     org_apache_kafka_clients_admin_DDSAdminClient
- * Method:    createTopics_native
- * Signature: (JLjava/util/Collection;)V
- */
+
 JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_createTopics_1native
   (JNIEnv* env, jobject obj, jlong ptr, jobject newTopics){
 
@@ -60,14 +56,27 @@ JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_create
 	env->DeleteLocalRef(newTopicClass);
 
   }
-
-/*
- * Class:     org_apache_kafka_clients_admin_DDSAdminClient
- * Method:    close
- * Signature: (Ljava/time/Duration;)V
- */
 JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_close
-  (JNIEnv* env, jobject obj, jobject){
-		 
-  }
+  (JNIEnv* env, jobject obj, jlong ptr,jobject time){
+
+
+ 	DDSMetadataClient* pointer = reinterpret_cast<DDSMetadataClient*>(ptr);
 	
+	delete pointer;
+
+  }
+
+
+JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_ListTopics_1native
+  (JNIEnv* env, jobject obj, jlong ptr){
+
+	DDSMetadataClient* pointer = reinterpret_cast<DDSMetadataClient*>(ptr);
+		
+	pointer->list_topics<void>([](const std::unordered_map<std::string,Topic>& topics)->void{
+			for(const auto& topic :topics){
+			std::cout<< "Topic Name: " << topic.second.name << std::endl;
+			}
+  
+});
+
+}

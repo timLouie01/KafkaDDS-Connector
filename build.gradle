@@ -1685,6 +1685,26 @@ project(':clients') {
     include "**/org/apache/kafka/server/quota/*"
     include "**/org/apache/kafka/server/telemetry/*"
   }
+/*
+ task generateHeaders(type: Exec) {
+        def sourceFiles = files('src/main/java/org/apache/kafka/clients/admin/Admin.java','src/main/java/org/apache/kafka/clients/admin/DDSAdminClient.java')
+
+        def outputDir = file("/native/src/main/headers")
+
+	def classpath = configurations.compileClasspath.files.collect{it.absolutePath}.join(File.pathSeparator)
+     
+
+        inputs.files sourceFiles
+        outputs.dir outputDir
+
+        commandLine 'javac', '-h', outputDir.absolutePath, '-cp', classpath, sourceFiles.files.collect{it.absolutePath}
+    }
+
+    generateHeaders.dependsOn configurations.compileClasspath.resolve()
+
+
+	compileJava.finalizedBy generateHeaders
+*/
 }
 
 project(':raft') {

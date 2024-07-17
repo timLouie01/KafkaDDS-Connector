@@ -10,10 +10,10 @@ extern "C" {
 /*
  * Class:     org_apache_kafka_clients_admin_DDSAdminClient
  * Method:    createInternal_native
- * Signature: ()J
+ * Signature: (Ljava/lang/String;)J
  */
 JNIEXPORT jlong JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_createInternal_1native
-  (JNIEnv *, jclass);
+  (JNIEnv *, jclass, jstring);
 
 /*
  * Class:     org_apache_kafka_clients_admin_DDSAdminClient
@@ -26,10 +26,18 @@ JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_create
 /*
  * Class:     org_apache_kafka_clients_admin_DDSAdminClient
  * Method:    close
- * Signature: (Ljava/time/Duration;)V
+ * Signature: (JLjava/time/Duration;)V
  */
 JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_close
-  (JNIEnv *, jobject, jobject);
+  (JNIEnv *, jobject, jlong, jobject);
+
+/*
+ * Class:     org_apache_kafka_clients_admin_DDSAdminClient
+ * Method:    ListTopics_native
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_ListTopics_1native
+  (JNIEnv *, jobject, jlong);
 
 #ifdef __cplusplus
 }
