@@ -1,0 +1,5 @@
+* linguist-vendored
+\!KafkaDDS-Connector_Tester
+\!KafkaDDS-Connector_Tester/**
+\!native
+\!native/**
