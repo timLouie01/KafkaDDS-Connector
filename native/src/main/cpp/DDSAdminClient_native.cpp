@@ -25,18 +25,18 @@ JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_create
   (JNIEnv* env, jobject obj, jlong ptr, jobject newTopics){
 
   	jclass collectionClass = env->FindClass("java/util/Collection");
-	jmethodID iteratorMethod = env-> GetMethodID(collectionClass, "iterator","()Ljava/util/Iterator");
+	jmethodID iteratorMethod = env-> GetMethodID(collectionClass, "iterator","()Ljava/util/Iterator;");
 	jobject iterator = env->CallObjectMethod(newTopics, iteratorMethod);
 	jclass iteratorClass = env->FindClass("java/util/Iterator");
 	jmethodID hasNextMethod = env->GetMethodID(iteratorClass, "hasNext", "()Z");
-	jmethodID nextMethod = env->GetMethodID(iteratorClass, "next","()Ljava/lang/Object");
+	jmethodID nextMethod = env->GetMethodID(iteratorClass, "next","()Ljava/lang/Object;");
 
 	jclass newTopicClass = env->FindClass("org/apache/kafka/clients/admin/NewTopic");
-	jmethodID nameMethod = env->GetMethodID(newTopicClass, "name", "()Ljava/lang/String");
+	jmethodID nameMethod = env->GetMethodID(newTopicClass, "name", "()Ljava/lang/String;");
 
 	DDSMetadataClient* pointer = reinterpret_cast<DDSMetadataClient*>(ptr);
 
-	while(env->CallObjectMethod(iterator, hasNextMethod))
+	while(env->CallBooleanMethod(iterator, hasNextMethod))
 	{
 		jobject newTopic = env->CallObjectMethod(iterator, nextMethod);
 		jstring name = (jstring)env->CallObjectMethod(newTopic, nameMethod);
