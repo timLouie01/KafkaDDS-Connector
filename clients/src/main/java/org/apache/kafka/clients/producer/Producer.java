@@ -30,6 +30,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Future;
+import java.util.Properties;
 
 /**
  * The interface for the {@link KafkaProducer}
@@ -38,6 +39,18 @@ import java.util.concurrent.Future;
  */
 public interface Producer<K, V> extends Closeable {
 
+	static <K, V> Producer<K, V> create(Properties props, Class<K> clazz1, Class<V> clazz2){
+
+	String useDDS = props.getProperty("useCascadeDDSImpl","false");
+
+	if (useDDS.equalsIgnoreCase("true")){
+		String topic_name = props.getProperty("topic");
+		return DDSProducerClient.createInternal(topic_name, clazz1, clazz2);
+	}
+	else{
+		return new KafkaProducer<>(props);
+	}
+	}
     /**
      * See {@link KafkaProducer#initTransactions()}
      */

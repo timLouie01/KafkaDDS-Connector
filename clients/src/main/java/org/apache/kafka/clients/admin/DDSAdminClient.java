@@ -311,29 +311,38 @@ public class DDSAdminClient extends AdminClient{
 	
 
 	
-	public native void close(long pointer,Duration timeout);
+	public native void close_native(long pointer,Duration timeout);
 	
 	@Override
 	public void close(Duration timeout){
 
-		this.close(this.DDSMetadataClient_ptr,timeout);
+		this.close_native(this.DDSMetadataClient_ptr,timeout);
 	}
  	@Override
    	public CreateTopicsResult createTopics(Collection<NewTopic> newTopics, CreateTopicsOptions options) {
 	           throw new UnsupportedOperationException(NOT_IMPLEMENTED_MESSAGE);
     } 
-
+	
+    public native void deleteTopics_native(long pointer,Collection<?> topics);
 	@Override
     public DeleteTopicsResult deleteTopics(TopicCollection topics, DeleteTopicsOptions options) {
-        throw new UnsupportedOperationException(NOT_IMPLEMENTED_MESSAGE);
+       if (topics instanceof TopicIdCollection){
+	
+	this.deleteTopics_native(this.DDSMetadataClient_ptr,((TopicIdCollection)topics).topicIds());
+       } else
+       {
+	this.deleteTopics_native(this.DDSMetadataClient_ptr,((TopicNameCollection)topics).topicNames());
+
+       }
+	    throw new UnsupportedOperationException(NOT_IMPLEMENTED_MESSAGE);
     }
 
-    public native void ListTopics_native(long pointer);
+    public native void listTopics_native(long pointer);
 
     @Override
     public ListTopicsResult listTopics(ListTopicsOptions options) {
       
-	this.ListTopics_native(this.DDSMetadataClient_ptr);
+	this.listTopics_native(this.DDSMetadataClient_ptr);
 	    
 	Map<String, TopicListing> emptyMap = Collections.emptyMap();
 	

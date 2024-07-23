@@ -56,7 +56,7 @@ JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_create
 	env->DeleteLocalRef(newTopicClass);
 
   }
-JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_close
+JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_close_1native
   (JNIEnv* env, jobject obj, jlong ptr,jobject time){
 
 
@@ -67,7 +67,7 @@ JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_close
   }
 
 
-JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_ListTopics_1native
+JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_listTopics_1native
   (JNIEnv* env, jobject obj, jlong ptr){
 
 	DDSMetadataClient* pointer = reinterpret_cast<DDSMetadataClient*>(ptr);
@@ -78,5 +78,8 @@ JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_ListTo
 			}
   
 });
+
+}
+JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_deleteTopics_1native(JNIEnv* env, jobject obj, jlong ptr, jobject topics){
 
 }

@@ -25,18 +25,26 @@ JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_create
 
 /*
  * Class:     org_apache_kafka_clients_admin_DDSAdminClient
- * Method:    close
+ * Method:    close_native
  * Signature: (JLjava/time/Duration;)V
  */
-JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_close
+JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_close_1native
   (JNIEnv *, jobject, jlong, jobject);
 
 /*
  * Class:     org_apache_kafka_clients_admin_DDSAdminClient
- * Method:    ListTopics_native
+ * Method:    deleteTopics_native
+ * Signature: (JLjava/util/Collection;)V
+ */
+JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_deleteTopics_1native
+  (JNIEnv *, jobject, jlong, jobject);
+
+/*
+ * Class:     org_apache_kafka_clients_admin_DDSAdminClient
+ * Method:    listTopics_native
  * Signature: (J)V
  */
-JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_ListTopics_1native
+JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_listTopics_1native
   (JNIEnv *, jobject, jlong);
 
 #ifdef __cplusplus
