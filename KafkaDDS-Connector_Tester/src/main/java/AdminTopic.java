@@ -29,7 +29,7 @@ public class AdminTopic
 	Optional<Integer> numPartitions = Optional.empty();
 	Optional<Short> replicationFactor = Optional.empty();
 
-	NewTopic topic = new NewTopic("/dds/tiny_text/Topic2",numPartitions,replicationFactor);
+	NewTopic topic = new NewTopic("/dds/tiny_text/Topic5",numPartitions,replicationFactor);
 	try{       
        	adminClient.createTopics(Collections.singleton(topic)).all().get();
 	}

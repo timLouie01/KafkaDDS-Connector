@@ -315,12 +315,19 @@ public class DDSAdminClient extends AdminClient{
 	
 	@Override
 	public void close(Duration timeout){
-
+		// Checking if the poitner is zero to make sure we do not attemtp to call the close_native with a pointer that references already freed resource
+		if (this.DDSMetadataClient_ptr != 0){
 		this.close_native(this.DDSMetadataClient_ptr,timeout);
+		// Set pointer to zero prevent multiple this.close_native calls per Admin Instance
+		this.DDSMetadataClient_ptr = 0;
+		}
 	}
  	@Override
    	public CreateTopicsResult createTopics(Collection<NewTopic> newTopics, CreateTopicsOptions options) {
-	           throw new UnsupportedOperationException(NOT_IMPLEMENTED_MESSAGE);
+	           this.createTopics_native(this.DDSMetadataClient_ptr, newTopics);
+		Map<String, KafkaFuture<TopicMetadataAndConfig>> emptyMap = new HashMap<>();
+
+		return new CreateTopicsResult(emptyMap);
     } 
 	
     public native void deleteTopics_native(long pointer,Collection<?> topics);
