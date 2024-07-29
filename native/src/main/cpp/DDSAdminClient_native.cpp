@@ -60,9 +60,8 @@ JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_close_
   (JNIEnv* env, jobject obj, jlong ptr,jobject time){
 
 
- 	DDSMetadataClient* pointer = reinterpret_cast<DDSMetadataClient*>(ptr);
+	  std::unique_ptr<DDSMetadataClient*> pointer (reinterpret_cast<DDSMetadataClient*>(ptr));
 	
-	delete pointer;
 
   }
 
@@ -83,3 +82,9 @@ JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_listTo
 JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_deleteTopics_1native(JNIEnv* env, jobject obj, jlong ptr, jobject topics){
 
 }
+
+JNIEXPORT void JNICALL Java_org_apache_kafka_clients_admin_DDSAdminClient_listTopics_1native
+  (JNIEnv * env, jobject obj, jlong ptr){
+
+
+  }
