@@ -10,7 +10,7 @@ extern "C" {
 /*
  * Class:     org_apache_kafka_clients_producer_DDSProducerClient
  * Method:    createInternal_native
- * Signature: (Ljava/lang/String;)[J
+ * Signature: (Ljava/lang/String;Ljava/lang/String;)[J
  */
 JNIEXPORT jlongArray JNICALL Java_org_apache_kafka_clients_producer_DDSProducerClient_createInternal_1native
   (JNIEnv *, jclass, jstring, jstring);
