@@ -326,7 +326,7 @@ public class CascadeDDSAdminClient extends AdminClient{
 		System.loadLibrary("admin_DDS"); 
 	}
 
-	public CascadeDDSAdminClient(long input){
+	private CascadeDDSAdminClient(long input){
 		this.DDSMetadataClient_ptr = input;
 	}
 

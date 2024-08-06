@@ -44,8 +44,7 @@ public interface Producer<K, V> extends Closeable {
 	String useDDS = props.getProperty("useCascadeDDSImpl","false");
 
 	if (useDDS.equalsIgnoreCase("true")){
-		String topic_name = props.getProperty("topic");
-		return DDSProducerClient.createInternal(topic_name, clazz1, clazz2);
+		return new CascadeDDSProducerClient<>(props);
 	}
 	else{
 		return new KafkaProducer<>(props);
