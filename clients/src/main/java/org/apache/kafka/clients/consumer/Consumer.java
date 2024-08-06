@@ -21,6 +21,7 @@ import org.apache.kafka.common.MetricName;
 import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.Uuid;
+import org.apache.kafka.common.serialization.Deserializer;
 
 import java.io.Closeable;
 import java.time.Duration;
@@ -39,11 +40,12 @@ public interface Consumer<K, V> extends Closeable {
 
 
 
-	static <K, V> Consumer<K, V> create(Properties props){
+	static <K, V> Consumer<K, V> create(Properties props, Deserializer<K> keyDeserializer,
+			                         Deserializer<V> valueDeserializer){
 
 	String useDDS = props.getProperty("useCascadeDDSImpl","false");
 	if (useDDS.equalsIgnoreCase("true")){
-		return new CascadeDDSConsumerClient<>(props);
+		return new CascadeDDSConsumerClient<>(props, keyDeserializer, valueDeserializer);
 	}else{
 		return new KafkaConsumer<>(props);
 	}

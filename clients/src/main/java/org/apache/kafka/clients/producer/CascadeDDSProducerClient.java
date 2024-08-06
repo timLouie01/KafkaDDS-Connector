@@ -21,21 +21,21 @@ import java.util.Collections;
 public class CascadeDDSProducerClient<K, V> implements Producer<K, V> {
 	
 	private static final String NOT_IMPLEMENTED_MESSAGE = "Not Implemented for Cascade DDS";
-	private long DDSClient_ptr;
-	private long DDSProducer_ptr;
-	private final Serializer<K> keySerializer;
-	private final Serializer<V> valueSerializer;
-	private final String clientId;
+	public long DDSClient_ptr;
+	public long DDSProducer_ptr;
+	public final Serializer<K> keySerializer;
+	public final Serializer<V> valueSerializer;
+	public final String clientId;
 
 	static{
 									    	
-	System.loadLibrary("producer_consumer_DDS");
+	System.loadLibrary("producer_DDS");
 	}
 								    	   				   @SuppressWarnings({"unchecked", "this-escape"})	
        	public CascadeDDSProducerClient(Properties properties){
 										    	String topic = properties.getProperty("Topic");
 		if (topic == null){
-	
+//Error handeling?	
 		}			
 		long[] input = createInternal_native(topic);
 														
