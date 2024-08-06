@@ -13,7 +13,7 @@ extern "C" {
  * Signature: ()[J
  */
 JNIEXPORT jlongArray JNICALL Java_org_apache_kafka_clients_producer_CascadeDDSProducerClient_createInternal_1native
-  (JNIEnv *, jclass);
+  (JNIEnv *, jclass,jstring);
 
 /*
  * Class:     org_apache_kafka_clients_producer_CascadeDDSProducerClient

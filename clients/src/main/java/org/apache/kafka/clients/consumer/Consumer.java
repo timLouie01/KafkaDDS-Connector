@@ -30,13 +30,24 @@ import java.util.Map;
 import java.util.OptionalLong;
 import java.util.Set;
 import java.util.regex.Pattern;
-
+import java.util.Properties;
 /**
  * @see KafkaConsumer
  * @see MockConsumer
  */
 public interface Consumer<K, V> extends Closeable {
 
+
+
+	static <K, V> Consumer<K, V> create(Properties props){
+
+	String useDDS = props.getProperty("useCascadeDDSImpl","false");
+	if (useDDS.equalsIgnoreCase("true")){
+		return new CascadeDDSConsumerClient<>(props);
+	}else{
+		return new KafkaConsumer<>(props);
+	}
+	}
     /**
      * @see KafkaConsumer#assignment()
      */

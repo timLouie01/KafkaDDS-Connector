@@ -33,19 +33,35 @@ public class CascadeDDSProducerClient<K, V> implements Producer<K, V> {
 	}
 								    	   				   @SuppressWarnings({"unchecked", "this-escape"})	
        	public CascadeDDSProducerClient(Properties properties){
-										    					long[] input = createInternal_native();
-															this.DDSClient_ptr = input[0];
-															this.DDSProducer_ptr = input[1];
-															ProducerConfig config = new ProducerConfig(properties);
-															this.clientId = config.getString(ProducerConfig.CLIENT_ID_CONFIG);
-															this.keySerializer = (Serializer<K>)config.getConfiguredInstance(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, Serializer.class);
-															this.keySerializer.configure(config.originals(Collections.singletonMap(ProducerConfig.CLIENT_ID_CONFIG, clientId)), true);
+										    	String topic = properties.getProperty("Topic");
+		if (topic == null){
+	
+		}			
+		long[] input = createInternal_native(topic);
+														
+		this.DDSClient_ptr = input[0];
+														
+		this.DDSProducer_ptr = input[1];
+														
+		ProducerConfig config = new ProducerConfig(properties);
+														
+																			
+		this.clientId = config.getString(ProducerConfig.CLIENT_ID_CONFIG);
+														
+																			
+		this.keySerializer = (Serializer<K>)config.getConfiguredInstance(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, Serializer.class);
+														
+																			
+		this.keySerializer.configure(config.originals(Collections.singletonMap(ProducerConfig.CLIENT_ID_CONFIG, clientId)), true);
 
-															this.valueSerializer = (Serializer<V>) config.getConfiguredInstance(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,Serializer.class);
-																												this.valueSerializer.configure(config.originals(Collections.singletonMap(ProducerConfig.CLIENT_ID_CONFIG, clientId)), false);
+														
+																			
+		this.valueSerializer = (Serializer<V>) config.getConfiguredInstance(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,Serializer.class);
+																												
+		this.valueSerializer.configure(config.originals(Collections.singletonMap(ProducerConfig.CLIENT_ID_CONFIG, clientId)), false);
 															 }
 
-									    	   					public static native long[] createInternal_native();
+									    	   					public static native long[] createInternal_native(String topic);
 
 										    					@Override													 public void initTransactions() {
 												 	         throw new UnsupportedOperationException(NOT_IMPLEMENTED_MESSAGE);

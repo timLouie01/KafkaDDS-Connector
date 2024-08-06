@@ -19,4 +19,4 @@ class KafkaMessage:public mutils::ByteRepresentable{
 
 	}
 
-}
+};
